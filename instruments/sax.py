@@ -1,5 +1,6 @@
-from instrument import Instrument
 import random
+
+from instruments.instrument import Instrument
 
 
 class Sax:

@@ -1,4 +1,4 @@
-from instrument import Instrument
+from instruments.instrument import Instrument
 
 
 class Piano:
