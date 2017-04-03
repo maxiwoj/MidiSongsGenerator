@@ -22,8 +22,7 @@ class Sax:
         if self.current_pitch + self.key_base > 80:
             self.allowed_melodic_intervals.sort()
         elif self.current_pitch + self.key_base < 40:
-            self.allowed_melodic_intervals.sort()
-            self.allowed_melodic_intervals.reverse()
+            self.allowed_melodic_intervals.sort(reverse = True)
         else:
             random.shuffle(self.allowed_melodic_intervals)
         while time < end_time:
