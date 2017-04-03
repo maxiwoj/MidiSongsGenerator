@@ -57,8 +57,8 @@ bass = Bass(key_base, track, bass_channel, max_volume, beats_per_bar, my_midi, n
 piano = Piano(key_base, track, piano_channel, max_volume - 35, beats_per_bar, my_midi, narcossity_level)
 
 if narcossity_level != 1:
-    altSax = Sax(key_base, track, alt_sax_channel, max_volume - 45, beats_per_bar, my_midi, narcossity_level)
-# soprSax  = Sax(keyBase, track, altSaxChannel, maxVolume - 40, beatsPerBar, MyMIDI )
+    alt_sax = Sax(key_base, track, alt_sax_channel, max_volume - 45, beats_per_bar, my_midi, narcossity_level)
+# sopr_sax  = Sax(keyBase, track, altSaxChannel, maxVolume - 40, beatsPerBar, MyMIDI)
 
 percussion.generate_until_bar(time)
 time = beats_per_bar
@@ -72,8 +72,8 @@ for i in range(0, number_of_bars):
     choir.generate_until_bar(time, chord, relative_pitch)
     piano.generate_until_bar(time, chord, relative_pitch)
     if narcossity_level != 1:
-        altSax.generate_until_bar(time, chord, relative_pitch)
-    # soprSax.generateUntilBar(time, chord, relativePitch, narcossityLevel)
+        alt_sax.generate_until_bar(time, chord, relative_pitch)
+    # sopr_sax.generateUntilBar(time, chord, relativePitch, narcossityLevel)
 
     time += beats_per_bar
 

@@ -6,31 +6,31 @@ from instruments.instrument import Instrument
 class Sax:
     def __init__(self, keyBase, track, channel, volume, beats_in_bar, midi_file, narcossity_level):
         midi_file.addProgramChange(track, channel, 0, Instrument.AltoSax)
-        self.MidiFile = midi_file
-        self.keyBase = 60 + keyBase
+        self.midi_file = midi_file
+        self.key_base = 60 + keyBase
         self.track = track
         self.channel = channel
         self.volume = volume
-        self.beatsInBar = beats_in_bar
-        self.numberOfTicksPerBeat = beats_in_bar // 4
-        self.currentPitch = 0
-        self.allowedMelodicIntervals = [0, 1, -1, 2, -2, 3, -3, 4, -4, -8, 8, 9, -9]
+        self.beats_in_bar = beats_in_bar
+        self.number_of_ticks_per_beat = beats_in_bar // 4
+        self.current_pitch = 0
+        self.allowed_melodic_intervals = [0, 1, -1, 2, -2, 3, -3, 4, -4, -8, 8, 9, -9]
         self.narcossity_level = narcossity_level
 
     def generate_until_bar(self, time, chord, relative_pitch):
-        end_time = time + self.beatsInBar
-        if self.currentPitch + self.keyBase > 75:
-            self.allowedMelodicIntervals.sort()
-        elif self.currentPitch + self.keyBase < 50:
-            self.allowedMelodicIntervals.sort()
-            self.allowedMelodicIntervals.reverse()
+        end_time = time + self.beats_in_bar
+        if self.current_pitch + self.key_base > 75:
+            self.allowed_melodic_intervals.sort()
+        elif self.current_pitch + self.key_base < 50:
+            self.allowed_melodic_intervals.sort()
+            self.allowed_melodic_intervals.reverse()
         else:
-            random.shuffle(self.allowedMelodicIntervals)
+            random.shuffle(self.allowed_melodic_intervals)
         while time < end_time:
             found = False
             for i in range(0, 4):
                 for interval in chord:
-                    if (self.currentPitch + self.allowedMelodicIntervals[i]) % 12 == (relative_pitch + interval) % 12:
+                    if (self.current_pitch + self.allowed_melodic_intervals[i]) % 12 == (relative_pitch + interval) % 12:
                         if end_time - time > 1:
                             if self.narcossity_level == 4:
                                 duration = random.randint(1, (end_time - time) // 2)
@@ -39,9 +39,9 @@ class Sax:
                         else:
                             duration = 1
 
-                        self.currentPitch += self.allowedMelodicIntervals[i]
-                        self.MidiFile.addNote(self.track, self.channel, self.keyBase + self.currentPitch,
-                                              time, duration, self.volume)
+                        self.current_pitch += self.allowed_melodic_intervals[i]
+                        self.midi_file.addNote(self.track, self.channel, self.key_base + self.current_pitch,
+                                               time, duration, self.volume)
                         time += duration
                         found = True
                         break
@@ -49,7 +49,7 @@ class Sax:
                     break
             else:
                 duration = 1
-                self.currentPitch += random.choice([-1, 1])
-                self.MidiFile.addNote(self.track, self.channel, self.keyBase + self.currentPitch,
-                                      time, duration, self.volume)
+                self.current_pitch += random.choice([-1, 1])
+                self.midi_file.addNote(self.track, self.channel, self.key_base + self.current_pitch,
+                                       time, duration, self.volume)
                 time += duration
