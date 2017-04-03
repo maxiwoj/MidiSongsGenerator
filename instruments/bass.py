@@ -17,10 +17,12 @@ class Bass:
         time = bar_start_time
         for interval in chord:
             if self.narcossity_level == 1:
+                # one note per beat
                 self.midi_file.addNote(self.track, self.channel, self.key_base + stopien + interval,
                                        time, self.number_of_ticks_per_beat, self.volume)
             else:
                 beat_count = self.number_of_ticks_per_beat // 2
+                # 2 or 3 notes per beat if more than 1 tick per beat
                 for i in range(0, self.number_of_ticks_per_beat):
                     if beat_count != 0 and i % beat_count == 0:
                         self.midi_file.addNote(self.track, self.channel, self.key_base + stopien + interval,

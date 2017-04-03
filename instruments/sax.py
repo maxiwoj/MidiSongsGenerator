@@ -19,9 +19,9 @@ class Sax:
 
     def generate_until_bar(self, time, chord, relative_pitch):
         end_time = time + self.beats_in_bar
-        if self.current_pitch + self.key_base > 75:
+        if self.current_pitch + self.key_base > 80:
             self.allowed_melodic_intervals.sort()
-        elif self.current_pitch + self.key_base < 50:
+        elif self.current_pitch + self.key_base < 40:
             self.allowed_melodic_intervals.sort()
             self.allowed_melodic_intervals.reverse()
         else:
@@ -38,11 +38,9 @@ class Sax:
                                 duration = random.randint(1, end_time - time)
                         else:
                             duration = 1
-
                         self.current_pitch += self.allowed_melodic_intervals[i]
                         self.midi_file.addNote(self.track, self.channel, self.key_base + self.current_pitch,
                                                time, duration, self.volume)
-                        time += duration
                         found = True
                         break
                 if found:
@@ -52,4 +50,4 @@ class Sax:
                 self.current_pitch += random.choice([-1, 1])
                 self.midi_file.addNote(self.track, self.channel, self.key_base + self.current_pitch,
                                        time, duration, self.volume)
-                time += duration
+            time += duration

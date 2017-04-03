@@ -15,14 +15,14 @@ class Piano:
 
     def generate_until_bar(self, bar_start_time, chord, relative_pitch):
         time = bar_start_time
-        if self.narcossity_level == 2:
+        if self.narcossity_level == 2: #jazzy
             for interval in chord:
                 self.midi_file.addNote(self.track, self.channel, self.key_base + relative_pitch + interval,
                                        time + self.number_of_ticks_per_beat // 2, self.number_of_ticks_per_beat, self.volume)
                 self.midi_file.addNote(self.track, self.channel, self.key_base + relative_pitch + interval,
                                        time + self.number_of_ticks_per_beat + self.number_of_ticks_per_beat // 2,
                                        self.beats_in_bar - (2 * self.number_of_ticks_per_beat), self.volume)
-        elif self.narcossity_level == 4:
+        elif self.narcossity_level == 4: #samba
             for i in range(0, self.beats_in_bar):
                 for interval in chord:
                     if i % self.number_of_ticks_per_beat == self.number_of_ticks_per_beat - 1:
@@ -31,7 +31,7 @@ class Piano:
                     elif i % self.number_of_ticks_per_beat >= self.number_of_ticks_per_beat // 2:
                         self.midi_file.addNote(self.track, self.channel, self.key_base + relative_pitch + interval,
                                                time + i, 1, self.volume)
-        else:
+        else: #simple arpeggio
             if relative_pitch > 5:
                 relative_pitch = relative_pitch - 12
             for i in range(0, self.beats_in_bar):

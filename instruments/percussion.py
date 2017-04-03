@@ -13,8 +13,9 @@ class Percussion:
         self.volume = volume
         self.beats_in_bar = beats_in_bar
         self.number_of_ticks_per_beat = beats_in_bar // 4
-        self.samba_beat = -1
         self.narcossity_level = narcossity_level
+        if self.narcossity_level == 4:
+            self.samba_beat = self._generate_samba_beat()
 
     def _generate_samba_beat(self):
         samba_beat_list = list()
@@ -37,7 +38,17 @@ class Percussion:
                 self.midi_file.addNote(self.track, self.channel, note, time + i, 1, self.volume)
 
     def generate_until_bar(self, bar_start_time):
-        if self.narcossity_level == 3:
+        if self.narcossity_level == 2:
+            for i in range(0, self.beats_in_bar):
+                if i % self.number_of_ticks_per_beat == 0:
+                    if (i // self.number_of_ticks_per_beat) % 2 == 1:
+                        self.midi_file.addNote(self.track, self.channel, Percussion.maracas, bar_start_time + i,
+                                               self.number_of_ticks_per_beat, self.volume)
+                    else:
+                        self.midi_file.addNote(self.track, self.channel, Percussion.low_tom, bar_start_time + i,
+                                               self.number_of_ticks_per_beat, self.volume)
+
+        elif self.narcossity_level == 3:
             beat_count = self.number_of_ticks_per_beat // 2
             for i in range(0, self.beats_in_bar):
                 if beat_count != 0 and i % beat_count == 0:
@@ -54,27 +65,14 @@ class Percussion:
                     else:
                         self.midi_file.addNote(self.track, self.channel, Percussion.bass_drum, bar_start_time,
                                                1, self.volume)
-        elif self.narcossity_level == 2:
-            for i in range(0, self.beats_in_bar):
-                if i % self.number_of_ticks_per_beat == 0:
-                    if (i // self.number_of_ticks_per_beat) == 1 or (i // self.number_of_ticks_per_beat) == 3:
-                        self.midi_file.addNote(self.track, self.channel, Percussion.maracas, bar_start_time + i,
-                                               self.number_of_ticks_per_beat, self.volume)
-                    elif i // self.number_of_ticks_per_beat == 0 or i // self.number_of_ticks_per_beat == 2:
-                        self.midi_file.addNote(self.track, self.channel, Percussion.low_tom, bar_start_time + i,
-                                               self.number_of_ticks_per_beat, self.volume)
+
         elif self.narcossity_level == 4:
-            if self.samba_beat == -1:
-                self.samba_beat = self._generate_samba_beat()
-                self._add_samba_beat(bar_start_time)
-            else:
-                self._add_samba_beat(bar_start_time)
+            self._add_samba_beat(bar_start_time)
         else:
-            for i in range(0, self.beats_in_bar):
+            # add the first note
+            self.midi_file.addNote(self.track, self.channel, Percussion.low_tom, bar_start_time,
+                self.number_of_ticks_per_beat, self.volume)
+            for i in range(1, self.beats_in_bar):
                 if i % self.number_of_ticks_per_beat == 0:
-                    if i == 0:
-                        self.midi_file.addNote(self.track, self.channel, Percussion.low_tom, bar_start_time,
-                                               self.number_of_ticks_per_beat, self.volume)
-                    else:
-                        self.midi_file.addNote(self.track, self.channel, Percussion.bass_drum, bar_start_time + i,
-                                               self.number_of_ticks_per_beat, self.volume)
+                    self.midi_file.addNote(self.track, self.channel, Percussion.bass_drum, bar_start_time + i,
+                       self.number_of_ticks_per_beat, self.volume)
