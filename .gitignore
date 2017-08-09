@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# midi files
+*.mid
+
 # Distribution / packaging
 .Python
 env/
