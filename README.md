@@ -1,17 +1,22 @@
-# Programowanie w jezyku Python 2016/2017 zadanie 1
+# Midi Songs Generator
 
-Uporczywe narkotyczne melodie potrafią czasem na długo przylgnąć do umysłu.
-Napisz program, który generuje narkotyczne melodie. Program powinien generować różne melodie w zależności od tego, jakie użytkownik poda opcje. Użytkownik będzie tak długo modyfikował opcje programu aż wygenerowana melodia utkwi mu na stałe w głowie.
+Simple generator, that uses basic music rules for generating random melodies
 
-Melodie te powinny być generowane w postaci plików midi i zapisywane na dysku twardym, przy czym użytkownik powinien mieć możliwość podania lokalizacji. Obsługa karty dźwiękowej w celu odtworzenia wygenerowanej melodii nie jest konieczna. Można użyć dowolnej biblioteki do obslugi formatu midi, przykladowo https://pypi.python.org/pypi/miditime
+## Usage
+To use the generator you will need python (tested with 3.x)
+```
+$ git clone https://github.com/maxiwoj/MidiSongsGenerator
+$ cd MidiSongsGenerator
+$ python MIDIGenerator.py
+```
 
-
-Program ten powinien wykorzystywać następujące elementy:
- - klasy
- - funkcje
- - parsowanie argumentów linii poleceń za pomocą modułu argparse ze standardowej biblioteki
- - zewnętrzna biblioteka do obsługi formatu midi
-
-Tresc zadania w Google Drive: https://goo.gl/dbfwo3
-
-Termin oddania zadania: 3 kwietnia 2017, 20:00
+### Additional options:
+```
+--narcossity    - You can play with different options of music's 'narcossity'. Allowed values: {1,2,3,4} 
+-p              - output filename
+-k              - set the key of the music
+-b              - Set the number of beats per bar
+-B              - set the number of bars
+-j              - Generate jazzy'like music
+-s              - Generate samba'like music
+```
